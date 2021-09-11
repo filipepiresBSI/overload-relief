@@ -1,0 +1,563 @@
+/* **** FOLHA DE ESTILO PARA A EXTENSÃO ****
+ * Criado por Filipe Pires da Silva e Marllon Oliveira Botelho Guida
+ */
+
+@charset "UTF-8";
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(bootstrap.css);
+@import url(bootstrap-grid.css);
+
+/*Regras Gerais e tema escuro*/
+
+   body {
+    --text-color: #3c4043;
+    --bkg-color: #ffffff;
+  }
+
+  body.dark-theme {
+    --text-color: #ffffff;
+    --bkg-color: #3c4043;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    /* Caso haja preferência pra tema escuro pelo sistema, escolhe ele */
+    body {
+      --text-color: #ffffff;
+      --bkg-color: #3c4043;
+    }
+    body.light-theme {
+      --text-color: #3c4043;
+      --bkg-color: #ffffff;
+    }
+  }
+  
+  * {
+    transition: background-color 0.6s ease, color 1s ease;
+  }
+
+/*- Divs Gerais  -*/
+
+/* Barra de Scroll personalizada */
+*{
+    scrollbar-width: thin;
+    scrollbar-color: var(--bkg-color) var(--text-color);
+}
+  
+*::-webkit-scrollbar {
+    width: 12px;
+}
+  
+*::-webkit-scrollbar-track {
+    background: var(--bkg-color);
+}
+  
+*::-webkit-scrollbar-thumb {
+    background-color: var(--text-color);
+    border-radius: 20px;
+    border: 3px solid var(--bkg-color);
+}
+
+/* Animação para a logo */
+
+@keyframes rotation {
+    from {
+      transform: rotate(359deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+}
+
+/* Regras globais de CSS */
+
+html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    background-color: var(--bkg-color);
+    font-family: Roboto;
+    overflow-x: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+b,
+i,
+p,
+h1, 
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color:var(--text-color);
+    font-family: 'Roboto';
+}
+
+span {
+    color:var(--text-color);
+}
+
+button {
+    background-color: var(--text-color);
+    color: var(--bkg-color);
+    border-radius: 4px;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.header {
+    display: block;
+    width: auto;
+    height: 50px;
+    padding-top: 10px;
+    margin-left: 20px;
+}
+
+.header h2{
+    margin-top: 5px;
+    text-align: start;
+}
+
+.header span{
+    font-size: 36px;
+    float: right;
+    margin-right: 6%;
+    color: var(--text-color);
+}
+
+.header span:hover{
+    filter: drop-shadow(4px 4px 4px rgb(26, 26, 26));
+    color: #0057e7;
+    cursor: pointer;
+}
+
+.header-division {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--text-color);
+    margin-top: 20px;
+}
+
+.logo{
+    height: 50px;
+    width: auto;
+    float: left;
+}
+
+.logo img{
+    height: 50px;
+    width: auto;
+    animation: rotation 3s infinite linear;
+}
+
+.grid-container{
+    display: grid;
+    padding: 20px;
+}
+
+.grid-child-a{
+    grid-column-start: 1;
+} 
+
+.grid-child-b{
+    grid-column-start: 2;
+} 
+
+.vertical-division {
+    border-left: 1px solid var(--text-color);
+    height: 85%;
+    left: 50%;
+    position: absolute;
+    margin-left: -100px;
+}
+
+.horizontal-division {
+    display: block;
+    width: 55%;
+    height: 1px;
+    background: var(--text-color);
+    margin-left: 18%;
+}
+
+/*- Página de Compromissos -*/
+
+.compromissos {
+    display: block;
+    width: 555px;
+    height: 365px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.compromissos h1{
+    position: absolute;
+    background-color: var(--bkg-color);
+    width: 542px;
+}
+
+.compromissos img {
+    width: 15px;
+    height: auto;
+}
+
+.evento-atual {
+    display: block;
+    margin-bottom: 20px;
+    width: 555px;
+    height: 170px;
+    border: var(--bkg-color) 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.evento-atual h3, h2 {
+    font-family: Roboto;
+    text-align: center;
+}
+
+.evento-atual img {
+    height: 30px;
+    width: auto;
+    animation: rotation 3s infinite linear;
+}
+
+.horas-livres {
+    display: block;
+    width: 700px;
+    height: 180px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.horas-livres img {
+    width: 15px;
+    height: auto;
+}
+
+.horas-livres h1{
+    position: absolute;
+    background-color: var(--bkg-color);
+    width: 687px;
+}
+
+.sugestoes {
+    display: block;
+    width: 700px;
+    height: 355px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sugestoes h1{
+    position: absolute;
+    background-color: var(--bkg-color);
+    width: 687px;
+}
+
+/*- Página de Configurações -*/
+
+.definir-horario {
+    display: block;
+    width: 555px;
+    height: 395px;
+    text-align: center;
+}
+
+.horario-definido {
+    display : block;
+}
+
+.horario-definido span{
+    height: 25px;
+    width: auto;
+    margin-left: 15px;
+    margin-top: 2px;
+}
+
+.horario-definido span:hover{
+    filter: drop-shadow(4px 4px 4px rgb(26, 26, 26));
+    color: #0057e7;
+    cursor: pointer;
+}
+
+.formulario {
+    display: none;
+}
+
+.definir-horario #form-hora {
+    display: block;
+}
+
+.formulario #cancel {
+    margin-left: 10px;
+}
+
+.form-horario {
+    display: block;
+    width: 320px;
+    height: 100px;
+    margin-left: 120px;
+}
+
+.grid-child-a #toggle-mode {
+    text-align: center;
+    margin-left: 36%;
+}
+
+.form-horario #horas_inicio, #horas_fim{
+    width : 45px;
+}
+
+.form-horario input{
+    width : 30px;
+}
+
+.form-horario span{
+    width : 25px;
+    height: auto;
+    margin-left: 12px;
+}
+
+.form-horario span:hover{
+    filter: drop-shadow(4px 4px 4px rgb(26, 26, 26));
+    cursor: pointer;
+}
+
+.clock {
+    display: block;
+    width: 555px;
+    height: 85px;
+    text-align: center;
+}
+
+.clock h1{
+    font-family: Orbitron;
+}
+
+.lista-atividades {
+    display: block;
+    width: 700px;
+    height: 325px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.lista-atividades img {
+    width: 15px;
+    height: auto;
+}
+
+.lista-atividades span {
+    width: 15px;
+    height: auto;
+    float: right;
+    margin-right: 20px;
+}
+
+.lista-atividades span:hover{
+    filter: drop-shadow(4px 4px 4px rgb(26, 26, 26));
+    cursor: pointer;
+}
+
+.criar-atividade {
+    display: block;
+    width: 700px;
+    height: 160px;
+}
+
+.form-atividade {
+    width: auto;
+    height: 120px;
+}
+
+.form-atividade #nome_atividade{
+    width: 300px;
+    border:0;
+    border-bottom:1px solid var(--text-color);  
+    background:transparent;
+    padding:8px 0 5px 0;
+    font-size:16px;
+    color: var(--text-color);
+}
+
+.form-atividade #nome_atividade:focus{
+    border:none;	
+    outline:none;
+    border-bottom:1px solid #d62d20;
+}
+
+.form-atividade 
+#hora_min, 
+#hora_max {
+    width: 30px;
+}
+
+.form-atividade 
+#minuto_dezena_min, 
+#minuto_dezena_max, 
+#minuto_unidade_min, 
+#minuto_unidade_max {
+    width: 21px;
+}
+
+.form-atividade span{
+    text-align: center;
+}
+
+.form-atividade span:hover{
+    filter: drop-shadow(4px 4px 4px rgb(26, 26, 26));
+    cursor: pointer;
+}
+
+.form-atividade #confirmAtividade {
+    margin-left: 280px;
+}
+
+/*- Página de informações da extensão -*/
+
+.vertical-division-faq {
+    border-left: 1px solid var(--text-color);
+    height: 85%;
+    left: 54%;
+    position: absolute;
+    margin-left: -70px;
+}
+
+.about-or {
+    display: block;
+    width: 625px;
+    height: 555px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.about-or h1{
+    background-color: var(--bkg-color);
+    position:absolute;
+    width: 611px;
+}
+
+.about-or h2, p {
+    text-align: left;
+}
+
+.texto{
+    padding-top: 60px;
+    text-align: left;
+}
+
+.faq {
+    display: block;
+    width: 627px;
+    height: 555px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.texto h2{
+    text-align: center;
+}
+
+.faq-text {
+    display: block;
+    width: 300px;
+    float: left;
+    text-align: center;
+}
+
+/* CSS geral dos Modal, Modal é usado na página de Configurações */
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-open {
+    overflow: initial;
+}
+  
+.modal-content {
+    background-color: var(--bkg-color);
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; 
+}
+
+
+.modal-content p {
+    color: var(--text-color);
+}
+  
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content-update {
+    background-color: var(--bkg-color);
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 410px; 
+}
+
+.btn-update {
+    width: auto;
+    text-align: center;
+}
+
+.btn-update button{
+    width: 100px;
+}
+
+.btn-delete {
+    width: auto;
+    text-align: center;
+}
+
+.btn-delete button{
+    width: 100px;
+}
+
+.form-modal 
+#hora_min_update, 
+#hora_max_update {
+    width: 30px;
+}
+
+.form-modal 
+#minuto_dezena_min_update, 
+#minuto_dezena_max_update, 
+#minuto_unidade_min_update, 
+#minuto_unidade_max_update {
+    width: 21px;
+}
+
+.modal-content-update span:hover{
+    cursor: pointer;
+}

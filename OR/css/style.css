@@ -1,0 +1,208 @@
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(bootstrap.css);
+@import url(bootstrap-grid.css);
+
+/*- Divs Gerais  -*/
+
+/* Works on Firefox */
+*{
+    scrollbar-width: thin;
+    scrollbar-color: white #3c4043;;
+}
+  
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+  
+*::-webkit-scrollbar-track {
+    background: white;
+}
+  
+*::-webkit-scrollbar-thumb {
+    background-color: #3c4043;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(359deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        height: 30px;
+        width: auto;
+    }
+    50% {
+        height: 40px;
+        width: auto;
+        margin-top: -5px;
+    }
+    100% {
+        height: 30px;
+        width: auto;
+    }
+}
+
+/*- Menu de Pop-up -*/
+
+body {
+    background-color: rgb(255,255,255);
+    font-family: Roboto;
+    overflow-x: hidden;
+    width: 300px;
+    height: 239px;
+}
+
+h1, 
+h2,
+h3,
+h4,
+h5 {
+    color:#3c4043;
+    font-family: Roboto;
+}
+
+p {
+    color:#3c4043;
+    font-family: Roboto;
+}
+
+.grid-container{
+    display: grid;
+}
+
+.grid-child-menu {
+    grid-column: 1;
+    grid-row: 1;
+    border-bottom: #3c4043 solid 1px;
+}
+
+.grid-child-a{
+    grid-column: 1;
+    grid-row: 2;
+    border-bottom: #3c4043 solid 1px;
+}
+
+.grid-child-a p {
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.grid-child-b{
+    grid-column: 1;
+    grid-row: 3;
+    border-bottom: #3c4043 solid 1px;
+} 
+
+.grid-child-b p{
+    padding-left: 15px;
+    margin-bottom: 12px;
+    margin-top: 5px;
+}
+
+.grid-child-c{
+    grid-column: 1;
+    grid-row: 4;
+} 
+
+.grid-child-c p{
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+.header-menu {
+    padding: 10px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    display: block;
+    width: 350px;
+    height: 50px;
+    top : 0;
+}
+
+.header-menu img {
+    height: 30px;
+    width: auto;
+    float: left;
+    animation: rotation 3s infinite linear;
+}
+
+.header-menu h1 {
+    font-family: Roboto;
+    color:#3c4043;
+    margin-left: 20px;
+}
+
+.horizontal-division {
+    display: block;
+    width: 95%;
+    height: 1px;
+    background: #3c4043;
+    margin: 5%;
+}
+
+.botao {
+    font-family: Roboto;
+}
+
+.botao a{
+    text-decoration: none;
+}
+
+.botao p{
+    font-size: 26px;
+    text-align: left;
+}
+
+.botao p:hover{
+    color: #0057e7;
+    font-weight: 1000;
+}
+
+.botao p:hover > img{
+    animation: pulse 1s infinite linear;
+}
+
+.botao a:hover{
+    text-decoration: none;
+}
+
+.botao .img-1 {
+    z-index: 1;
+    position: absolute;
+    height: 30px;
+    width: auto;
+    left: 250px;
+    top: 77px;
+}
+
+.botao .img-2 {
+    z-index: 1;
+    position: absolute;
+    height: 30px;
+    width: auto;
+    left: 250px;
+    top: 137px;
+}
+
+.botao .img-3 {
+    z-index: 1;
+    position: absolute;
+    height: 30px;
+    width: auto;
+    left: 250px;
+    top: 195px;
+}

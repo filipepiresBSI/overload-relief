@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Overload Relief</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body class="dark-theme || light-theme" id="corpo">
+    
+  <div class="header">
+      <div class="logo"><img src="imgs/Logo.png"></div>
+      <h2 id="boas_vindas">&nbsp; Bem Vindo
+      <span title="Recarregar Página" class="material-icons" onselectstart="return false" onclick="window.location.reload();">refresh</span>
+      </h2>
+  </div>
+  <span class="header-division"></span>
+
+<div class="grid-container">  
+
+  <div class="grid-child-a">
+
+    <div class="compromissos">
+      <div class="col-md-12">
+      <h1>Compromissos de Hoje</h1>
+      <div class="texto">
+        <p id="compromissos"></p>
+      </div>
+      </div>
+    </div>
+
+<span class="horizontal-division"></span>
+    <div class="evento-atual">
+    <div class="col-md-12">
+      <h3>Você está no evento : </h3>
+      <h2 id="evento"></h2>
+    </div>
+  </div>
+
+</div>
+
+<span class="vertical-division"></span>
+
+<div class="grid-child-b">
+
+  <div class="horas-livres">
+    <div class="col-md-12">
+      <h1>Horários Livres</h1>
+      <div class="texto">
+        <p id="horarios_livres"></p>
+      </div>
+    </div> 
+  </div>
+
+  <div class="sugestoes">
+    <div class="col-md-12">
+      <h1>Sugestões de Atividades</h1>
+      <div class="texto">
+        <p id="sugestoes"></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<div id="modalEvento" class="modal">
+
+  <div class="modal-content">
+    <h5 id="evento"></h5><br>
+  </div>
+
+</div>
+
+
+    <script type="text/javascript">
+       /* *** SCRIPT DA API GOOGLE CALENDAR *** 
+        * Modificada por:
+        * Filipe Pires da Silva e Marllon Oliveira Botelho Guida
+        * Código Original: https://developers.google.com/calendar/api/quickstart/js
+        */
+
+      
+      // Client ID and API key from the Developer Console
+      var CLIENT_ID = 'MEU_CLIENT_ID';
+      var API_KEY = 'MINHA_CHAVE_API';
+
+      // Array of API discovery doc URLs for APIs used by the quickstart
+      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+      var authorizeButton = document.getElementById('authorize_button');
+      var signoutButton = document.getElementById('signout_button');
+
+      /**
+       *  On load, called to load the auth2 library and API client library.
+       */
+      function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+      }
+
+      /**
+       *  Initializes the API client library and sets up sign-in state
+       *  listeners.
+       */
+      function initClient() {
+        gapi.client.init({
+          apiKey: API_KEY,
+          clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
+          scope: SCOPES
+        }).then(function () {
+  
+          // Listen for sign-in state changes.
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+          
+          // Handle the initial sign-in state.
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+		      
+          // MODIFICAÇÃO REALIZADA
+          gapi.auth2.getAuthInstance().signOut();
+		  
+        }, function(error) {
+          appendPre(JSON.stringify(error, null, 2));
+        });
+      }
+
+      /**
+       *  Called when the signed in status changes, to update the UI
+       *  appropriately. After a sign-in, the API is called.
+       */
+      function updateSigninStatus(isSignedIn) {
+        if (isSignedIn) {
+          listUpcomingEvents();
+        } else {
+		      gapi.auth2.getAuthInstance().signIn();
+        }
+      }
+      
+      /**
+       *  Sign in the user upon button click.
+       */
+      function handleAuthClick(event) {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
+      /**
+       *  Sign out the user upon button click.
+       */
+      function handleSignoutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+      }
+
+      /**
+       * Append a pre element to the body containing the given message
+       * as its text node. Used to display the results of the API call.
+       *
+       * @param {string} message Text to be placed in pre element.
+       *
+      function appendPre(message) {
+        var pre = document.getElementById('content');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+      } */
+
+      /**
+       * Print the summary and start datetime/date of the next ten events in
+       * the authorized user's calendar. If no events are found an
+       * appropriate message is printed.
+       */
+      function listUpcomingEvents() {
+        horarioUtil();
+        gapi.client.calendar.events.list({
+          'calendarId': 'primary',
+          'timeMin': inicioHorarioUtil(), //MODIFICAÇÃO REALIZADA
+		      'timeMax': fimHorarioUtil(), //MODIFICAÇÃO REALIZADA
+		      'showDeleted': false,
+          'singleEvents': true,
+          'maxResults': 100,//MODIFICAÇÃO REALIZADA
+          'orderBy': 'startTime'
+        }).then(function(response) {
+          var events = response.result.items;
+          /*** MODIFICAÇÃO REALIZADA ***/
+		      var contador = 1;
+          while(true) {
+            if(localStorage.getItem("evento" + contador.toString()) == null) break;
+            else {
+              localStorage.removeItem("evento" + contador.toString());
+              localStorage.removeItem("inicio" + contador.toString());
+              localStorage.removeItem("fim" + contador.toString());
+            }
+            contador++;
+          }
+          /*** ***/
+          if (events.length > 0) {
+            for (i = 0; i < events.length; i++) { 
+              var event = events[i];
+			        var compr = event.summary; //MODIFICAÇÃO REALIZADA
+              var when = event.start.dateTime;
+			        var finish = event.end.dateTime; //MODIFICAÇÃO REALIZADA
+              if (!when) {
+                when = event.start.date;
+              }
+              /*** MODIFICAÇÃO REALIZADA ***/
+			        var evento = 'evento' + (i + 1).toString();
+			        var inicio = 'inicio' + (i + 1).toString();
+			        var fim = 'fim' + (i + 1).toString();
+        
+			        if(typeof event.summary === "undefined") localStorage.setItem(evento, "Compromisso sem nome"); //MUDANÇA NOSSA
+              else localStorage.setItem(evento, event.summary); //MUDANÇA NOSSA
+	
+              localStorage.setItem(inicio, when); //MUDANÇA NOSSA
+              localStorage.setItem(fim, event.end.dateTime); //MUDANÇA NOSSA
+
+              var inicio_hora_util = localStorage.getItem(inicio);
+              var fim_hora_util = localStorage.getItem(fim);
+        
+              if((parseInt(inicio_hora_util.substring(11, 13) + inicio_hora_util.substring(14, 16))) < parseInt(localStorage.getItem("inicioHorarioUtil"))) {
+                localStorage.setItem("inicioHorarioUtil", (inicio_hora_util.substring(11, 13)) + inicio_hora_util.substring(14, 16));
+              }
+
+              if((parseInt(fim_hora_util.substring(11, 13) + fim_hora_util.substring(14, 16))) > parseInt(localStorage.getItem("fimHorarioUtil"))) {
+                localStorage.setItem("fimHorarioUtil", (fim_hora_util.substring(11, 13)) + fim_hora_util.substring(14, 16));
+              }
+			  
+			      }
+			      document.getElementById("compromissos").innerHTML = "";
+            document.getElementById("evento").innerHTML = "";
+            document.getElementById("horarios_livres").innerHTML = "";
+            document.getElementById("sugestoes").innerHTML = "";
+            imprimirCompromissos();
+            imprimirEventoAtual();
+            imprimirHorariosLivres();
+            } else {
+              imprimirCompromissos();
+              imprimirEventoAtual();
+              imprimirHorariosLivres();
+            }
+            /*** ***/
+          });
+        
+        }
+  
+  /**** FUNÇÕES EXTRAS CRIADAS ****/     
+  
+  /*** VARIÁVEL ONDE SE CARREGA OS DADOS SALVOS DAS ATIVIDADES A SEREM SURERIDAS ***/
+  var temp = null;
+  
+  /*** SALVA O HORÁRIO ÚTIL PADRÃO SE NÃO TIVER SIDO SALVO ANTERIORMENTE ***/
+  function horarioUtil() {
+    if(localStorage.getItem("inicioHorarioUtil") == null) {
+      localStorage.setItem("inicioHorarioUtil", "0800");
+      localStorage.setItem("fimHorarioUtil", "1700");
+    }
+  }
+  
+  /*** LIMPA O BUFFER DO CARREGAMENTO DOS DADOS SALVOS ***/
+  function limparBuffer() {
+	  temp = null;
+  }
+  
+  /*** FORMATA A HORA A SER IMPRESSA ***/
+  function formatarHora(hora) {
+    if(hora.length == 5) return hora.toString();
+    else if(hora.length > 5) {
+      var formatado = "";
+	    formatado += hora.substring(11, 16);
+	    return formatado;
+    } else {
+      var formatado = "";
+	    formatado += hora.substring(0, 2) + ":" + hora.substring(2);
+	    return formatado;
+    }
+  }
+  
+  /*** TRANFORMA DATAS ADICIONANDO ZERO SE MENOR QUE !) ***/
+  function transformadorDatas(data) {
+	  if(data < 10) return "0" + data.toString();
+	  else return data.toString();
+  }
+  
+  /*** CALCULA A DIFERENÇA DE TEMPO ENTRE DOIS HORÀRIOS DADOS ***/
+  function calcularDiferencaTempo(inicio, fim) {
+    var ti;
+    var tf;
+    i = inicio.toString(); 
+    f = fim.toString();
+
+    ti = [i.substring(0,2), i.substring(2)];
+    tf = [f.substring(0,2), f.substring(2)];
+
+	  var mini = parseInt(ti[0] * 60) + parseInt(ti[1]);
+	  var minf = parseInt(tf[0] * 60) + parseInt(tf[1]);
+	
+	  var tempo = minf - mini;
+	  
+	  var horas = parseInt(tempo / 60);
+	  var minutos = 0;
+	
+	  if(tempo < 60) minutos = tempo;
+	  else minutos = tempo % 60;
+	  
+    if(minutos == 0 && horas == 0) return "";
+	  else if(minutos == 0 && horas == 1) return horas.toString() + " hora";
+    else if(minutos == 0 && horas > 1) return horas.toString() + " horas";
+	  else if(horas == 0 && minutos == 1) return minutos.toString() + " minuto";
+    else if(horas == 0 && minutos > 1) return minutos.toString() + " minutos";
+    else if(horas == 1 && minutos == 1) return horas.toString() + " hora e " + minutos.toString() + " minuto";
+    else if(horas > 1 && minutos == 1) return horas.toString() + " horas e " + minutos.toString() + " minuto";
+    else if(horas == 1 && minutos > 1) return horas.toString() + " hora e " + minutos.toString() + " minutos";
+	  else return horas.toString() + " horas e " + minutos.toString() + " minutos";
+  }
+  
+  /*** CARREGA O INÍCIO DO HORÁRIO ÚTIL PARA LISTAR OS COMPROMIOSSOS ***/
+  function inicioHorarioUtil() {
+	temp = localStorage.getItem("inicioHorarioUtil");
+  if(temp == null) temp = inicio_hora_util;
+	var data = new Date();
+	var inicio = "";
+	var hora = formatarHora(temp.toString());
+	inicio += data.getFullYear().toString() + "-" + transformadorDatas(data.getMonth() + 1) + "-" + transformadorDatas(data.getDate()) + "T" + hora + ":00-03:00";
+  limparBuffer();
+	return inicio;
+}
+
+/*** CARREGA O FIM DO HORÁRIO ÚTIL PARA LISTAR OS COMPROMIOSSOS ***/
+function fimHorarioUtil() {
+	temp = localStorage.getItem("fimHorarioUtil");
+  if(temp == null) temp = fim_hora_util;
+  var data = new Date();
+	var fim = "";
+	var hora = formatarHora(temp.toString());
+	fim += data.getFullYear().toString() + "-" + transformadorDatas(data.getMonth() + 1) + "-" + transformadorDatas(data.getDate()) + "T" + hora + ":00-03:00";
+  limparBuffer();
+  return fim;
+}
+
+/*** LISTA OS COMPROMISSOS DO GOOGLE AGENDA ***/
+function imprimirCompromissos() {
+	var compromissos = document.getElementById("compromissos");
+	var indice = 1;
+	var listagem = "";
+	while(true) {
+		if(localStorage.getItem("evento" + indice.toString()) == null) break;
+		else {
+			var evento = localStorage.getItem("evento" + indice.toString());
+			var i = localStorage.getItem("inicio" + indice.toString());
+      var f = localStorage.getItem("fim" + indice.toString());
+      var inicio = (i.toString()).substring(11, 13) + (i.toString()).substring(14, 16);
+			var fim = (f.toString()).substring(11, 13) + (f.toString()).substring(14, 16);
+      var duracao = calcularDiferencaTempo(inicio, fim);
+      if((inicio >= localStorage.getItem("inicioHoraUtil")) || (fim <= localStorage.getItem("fimHoraUtil"))) {
+        listagem += "<img src='imgs/Logo.png'> &nbsp; <b>" + evento + "</b> às <b>" + formatarHora(inicio) + "</b> com duração de <b>" + duracao + "</b>.<br>";
+      }	
+	  }
+		indice++;
+	}
+	compromissos.innerHTML = listagem;	
+}
+
+/*** VERIFICA QUAL COMPROMISSO ESTÁ ACONTECENDO ***/
+function eventoAtual() {
+	var indice = 1;
+	var compr_inicial = [];
+	var compr_final = [];
+	while(true) {
+		if(localStorage.getItem("evento" + indice.toString()) == null) break;
+		else {
+			var inicio = localStorage.getItem("inicio" + indice.toString());
+			var fim = localStorage.getItem("fim" + indice.toString());
+			compr_inicial.push(parseInt(inicio.toString().substring(11,13) + inicio.toString().substring(14,16)));
+			compr_final.push(parseInt(fim.toString().substring(11,13) + fim.toString().substring(14,16)));
+		}
+		indice++;
+	}
+	var tamanho = compr_inicial.length;
+	if(tamanho == 0) {
+    document.getElementById("compromissos").innerHTML = "<b>SEM COMPROMISSOS AGENDADOS!</b>";
+    return "<b>HORÁRIO LIVRE!</b>"
+  } else {
+		var data = new Date();
+		var inicio_util = parseInt(localStorage.getItem("inicioHorarioUtil"));
+		var fim_util = parseInt(localStorage.getItem("fimHorarioUtil"));
+    var tempo = parseInt(transformadorDatas(data.getHours()).toString() + transformadorDatas(data.getMinutes()).toString());
+    if(tempo < inicio_util || tempo > fim_util) return "<b>FORA DO HORÁRIO ÚTIL!<b>";
+    else if(tempo >= inicio_util && tempo < compr_inicial[0]) return "<b>HORÁRIO LIVRE!</b>";
+		else if(tempo >= compr_final[tamanho - 1] && tempo < fim_util) return "<b>HORÁRIO LIVRE!</b>";
+		else {
+			for(i = 0; i < tamanho; i++) {
+				if(tempo >= compr_inicial[i] && tempo < compr_final[i]) {
+					return "<b>" + localStorage.getItem("evento" + (i + 1).toString()).toString() + "</b>";
+					break;
+				}
+				if(i + 1 < tamanho && (tempo >= compr_final[i] && tempo < compr_inicial[i + 1]) && compr_inicial[i + 1] - compr_final[i] > 0) {
+					return "<b>HORÁRIO LIVRE!</b>";
+					break;
+				}
+			}
+		}
+	}
+}
+
+/*** EXIBE QUAL O COMPROMISSO QUE ESTÁ ACONTECENDO ***/
+function imprimirEventoAtual() {
+  var atual = document.getElementById("evento");
+  atual.innerHTML = "<img src='imgs/Logo.png'> &nbsp;&nbsp;" + eventoAtual() + "&nbsp;&nbsp;<img src='imgs/Logo.png'>";
+}
+
+lista_sugestoes = "";
+
+/*** EXIBE OS HORÁRIOS LIVRES ***/
+function imprimirHorariosLivres() {
+  
+  var horarios_iniciais = [];
+  var horarios_finais = [];
+  
+  var contador = 1;
+  
+  while(true) {
+    if(localStorage.getItem("evento" + contador.toString()) == null) break;
+    else {
+      var inicio = localStorage.getItem("inicio" + contador.toString());
+      var fim = localStorage.getItem("fim" + contador.toString());
+      horarios_iniciais.push((inicio.toString()).substring(11,13) + (inicio.toString()).substring(14,16));
+      horarios_finais.push((fim.toString()).substring(11,13) + (fim.toString()).substring(14,16));
+    }
+    contador++;
+  }
+
+  var duracao;
+  var livre = document.getElementById("horarios_livres");
+  var impressao = "";
+  lista_sugestoes = "";
+  if(contador == 1) {
+    livre.innerHTML = impressao + "<b>DIA INTEIRO LIVRE!</b>";
+    imprimirSugestoes(0, 0, contador);
+  } else {
+    var hora_inicial = localStorage.getItem("inicioHorarioUtil").toString();
+    var hora_final = localStorage.getItem("fimHorarioUtil").toString();
+    var horario = horarios_iniciais[0];
+    duracao = calcularDiferencaTempo(hora_inicial, horario);
+    if(calcularDiferenca(hora_inicial, horario) > 0) {
+      impressao += "<img src='imgs/Logo.png'>&nbsp;<b>" + duracao + "</b>" + " a partir de " + "<b>" + formatarHora(hora_inicial) + "</b>.<br>";
+      imprimirSugestoes(hora_inicial, horario, 2);
+    }
+    if(horarios_iniciais.length == 1) {
+      horario = horarios_finais[0];
+      duracao = calcularDiferencaTempo(horario, hora_final);
+      if(calcularDiferenca(horario, hora_final) > 0) {
+        impressao += "<img src='imgs/Logo.png'>&nbsp;<b>" + duracao + "</b>" + " a partir de " + "<b>" + formatarHora(horario) + "</b>.<br>";
+        livre.innerHTML = impressao;
+        imprimirSugestoes(horario, hora_final, 2);
+      } else livre.innerHTML = impressao;
+    } else {
+      var horario1;
+      var horario2;
+      var tamanho = horarios_iniciais.length;
+      var i = 0;
+      while(i < tamanho - 1) {
+        horario1 = horarios_finais[i];
+        horario2 = horarios_iniciais[i + 1];
+        duracao = calcularDiferencaTempo(horario1, horario2);
+        if(calcularDiferenca(horario1, horario2) > 0) {
+          impressao += "<img src='imgs/Logo.png'>&nbsp;<b>" + duracao + "</b>" + " a partir de " + "<b>" + formatarHora(horario1) + "</b>.<br>";
+          imprimirSugestoes(horario1, horario2, 2);
+        }
+        i++;
+      }
+      horario = horarios_finais[tamanho - 1];
+      duracao = calcularDiferencaTempo(horario, hora_final);
+      if(calcularDiferenca(horario, hora_final) > 0) {
+        impressao += "<img src='imgs/Logo.png'>&nbsp;<b>" + duracao + "</b>" + " a partir de " + "<b>" + formatarHora(horario) + "</b>.<br>";
+        livre.innerHTML = impressao;
+        imprimirSugestoes(horario, hora_final, 2);
+      } else livre.innerHTML = impressao;
+    }
+  }
+}
+
+/*** CALCULA DIFERENCAS DE DOIS VALORES, rRETORNANDO UM VALOR INTEIRO ***/
+function calcularDiferenca(inicio, fim) {
+    var ti;
+    var tf;
+    i = inicio.toString(); 
+    f = fim.toString();
+
+    ti = [i.substring(0,2), i.substring(2)];
+    tf = [f.substring(0,2), f.substring(2)];
+
+	  var mini = parseInt(ti[0] * 60) + parseInt(ti[1]);
+	  var minf = parseInt(tf[0] * 60) + parseInt(tf[1]);
+	
+	  var tempo = minf - mini;
+
+    return tempo;
+}
+
+/*** FORMATA AS HORAS DAS ATIVIDADES ***/
+function formatarHoraAtividade(horas, minutos) {
+    if(minutos == 0 && horas == 0) return "";
+	  else if(minutos == 0 && horas == 1) return horas.toString() + " hora";
+    else if(minutos == 0 && horas > 1) return horas.toString() + " horas";
+	  else if(horas == 0 && minutos == 1) return minutos.toString() + " minuto";
+    else if(horas == 0 && minutos > 1) return minutos.toString() + " minutos";
+    else if(horas == 1 && minutos == 1) return horas.toString() + " hora e " + minutos.toString() + " minuto";
+    else if(horas > 1 && minutos == 1) return horas.toString() + " horas e " + minutos.toString() + " minuto";
+    else if(horas == 1 && minutos > 1) return horas.toString() + " hora e " + minutos.toString() + " minutos";
+	  else return horas.toString() + " horas e " + minutos.toString() + " minutos";
+}
+
+/*** EXIBE AS SUGESTÕES DE ATIVIDADES ***/
+function imprimirSugestoes(tempo1, tempo2, parametro) {
+  var impressao = document.getElementById("sugestoes");
+  if(localStorage.getItem("database") == "{}" || localStorage.getItem("database") == null) impressao.innerHTML = "<b>SEM SUGESTÕES DE ATIVIDADES!</b>";
+  else if((localStorage.getItem("database") != "{}") && parametro == 1) {
+    temp = JSON.parse(localStorage.getItem("database"));
+    lista_sugestoes += "Durante o <b>dia inteiro</b> você pode:<ul>";
+    for(let x in temp) {
+      lista_sugestoes += '<li><b>' + x + '</b>: De <b>' + formatarHoraAtividade((JSON.stringify(temp[x].hora_min)).replace(/"/g, ""), (JSON.stringify(temp[x].minuto_min)).replace(/"/g, "")) + '</b> a <b>'
+      + formatarHoraAtividade((JSON.stringify(temp[x].hora_max)).replace(/"/g, ""), (JSON.stringify(temp[x].minuto_max)).replace(/"/g, "")) + '</b>. </li>';
+    }
+    lista_sugestoes += "</ul>";
+    impressao.innerHTML = lista_sugestoes;
+    limparBuffer();  
+  } else if(parametro == 2) {
+    temp = JSON.parse(localStorage.getItem("database"));
+    var contador = 1;
+    for(let x in temp) {
+      var tempo_livre = calcularDiferenca(tempo1, tempo2);
+      var tempo_minimo = parseInt((JSON.stringify(temp[x].hora_min)).replace(/"/g, "")) * 60 + parseInt((JSON.stringify(temp[x].minuto_min)).replace(/"/g, ""));
+      var tempo_maximo = parseInt((JSON.stringify(temp[x].hora_max)).replace(/"/g, "")) * 60 + parseInt((JSON.stringify(temp[x].minuto_max)).replace(/"/g, ""));
+      if((tempo_minimo <= tempo_livre) || (tempo_maximo <= tempo_livre)) {
+        if(contador == 1) lista_sugestoes += "Entre <b>" + formatarHora(tempo1) + "</b> e <b>" + formatarHora(tempo2) + "</b> você pode:</b><ul>";
+        lista_sugestoes += '<li><b>' + x + '</b>: De <b>' + formatarHoraAtividade((JSON.stringify(temp[x].hora_min)).replace(/"/g, ""), (JSON.stringify(temp[x].minuto_min)).replace(/"/g, "")) + '</b> a <b>'
+        + formatarHoraAtividade((JSON.stringify(temp[x].hora_max)).replace(/"/g, ""), (JSON.stringify(temp[x].minuto_max)).replace(/"/g, "")) + '</b>. </li>';
+        contador++;
+      } else "<b>SEM SUGESTÕES NESSE INTERVALO</b>"
+    } 
+    lista_sugestoes += "</ul>";
+    impressao.innerHTML = lista_sugestoes;
+    limparBuffer();  
+  }
+}
+
+	</script>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <script src="js/mudar_tema.js"></script>
+
+  </body>
+</html>

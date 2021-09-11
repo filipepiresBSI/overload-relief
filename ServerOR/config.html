@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Overload Relief</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body class="dark-theme || light-theme" id="corpo">
+
+  <div class="header">
+      <div class="logo"><img src="imgs/Logo.png"></div>
+      <h2>&nbsp; Configurações</h2>
+  </div>
+  <span class="header-division"></span>
+
+<div class="grid-container">  
+
+  <div class="grid-child-a">
+
+<div class="definir-horario">
+    <div class="col-md-12">
+
+      <h1 id="definir">Horário Útil</h1>
+      
+      <div class="horario-definido" id="horario_util">
+        <h4 id="hora-final"></h4><span title="Editar" class="material-icons" id="caneta" onselectstart="return false" onclick="editarHora();">edit</span>
+      </div>
+
+      <div class="formulario" id="formulario">
+      <h3 id="form-hora">Inicio do Horário Útil</h3>
+
+      <div class="form-horario">
+
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('horas_inicio').value, 'horas_inicio');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minutos_dezena_inicio').value, 'minutos_dezena_inicio');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minutos_unidade_inicio').value, 'minutos_unidade_inicio');">add</span>
+
+        <form>
+          <input type="text" READONLY id="horas_inicio" name="hora" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minutos_dezena_inicio" name="minute_first" value="0"></input>
+          <input type="text" READONLY id="minutos_unidade_inicio" name="minute_last" value="0"></input>
+        </form>
+
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('horas_inicio').value, 'horas_inicio');">remove</span>
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minutos_dezena_inicio').value, 'minutos_dezena_inicio');">remove</span>
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minutos_unidade_inicio').value, 'minutos_unidade_inicio');">remove</span>
+
+      </div>
+
+
+      <h3 id="form-hora">Fim do Horário Útil</h3>
+
+      <div class="form-horario">
+
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('horas_fim').value, 'horas_fim');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minutos_dezena_fim').value, 'minutos_dezena_fim');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minutos_unidade_fim').value, 'minutos_unidade_fim');">add</span>
+
+        <form>
+          <input type="text" READONLY id="horas_fim" name="hora" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minutos_dezena_fim" name="minute_first" value="0"></input>
+          <input type="text" READONLY id="minutos_unidade_fim" name="minute_last" value="0"></input>
+        </form>
+
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('horas_fim').value, 'horas_fim');">remove</span>
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minutos_dezena_fim').value, 'minutos_dezena_fim');">remove</span>
+          <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minutos_unidade_fim').value, 'minutos_unidade_fim');">remove</span>
+
+      </div>
+
+      <button id="confirm" onclick="confirmarHora();">Confirmar</button>
+      <button id="cancel" onclick="cancelaMudanca();">Cancelar</button>
+        
+    </div>
+
+    </div>
+</div>
+
+    <div class="clock">
+    <div class="col-md-12">
+      <h1 id="relogio"></h1>
+    </div>
+  </div>
+
+  <button id="toggle-mode" onclick="changeTheme();">Trocar Tema</button>
+
+</div>
+
+<span class="vertical-division"></span>
+
+<div class="grid-child-b">
+
+  <div class="lista-atividades">
+    <div class="col-md-12">
+      <h1>Lista de Atividades</h1>
+      <p id="lista-atividades"></p>
+    </div> 
+  </div>
+
+  <div class="criar-atividade">
+    <div class="col-md-12">
+      <h1>Criar Atividade</h1>
+      <h5>Nome da Atividade 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Duração Min. 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+        Duração Máx.
+      </h5>
+
+      <div class="form-atividade">
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('hora_min').value, 'hora_min');">add</span> &nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minuto_dezena_min').value, 'minuto_dezena_min');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minuto_unidade_min').value, 'minuto_unidade_min');">add</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('hora_max').value, 'hora_max');">add</span> &nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minuto_dezena_max').value, 'minuto_dezena_max');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minuto_unidade_max').value, 'minuto_unidade_max');">add</span>
+
+        <form>
+
+          <input type="text" id="nome_atividade"></input>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          
+          <input type="text" READONLY id="hora_min" name="hour_min" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minuto_dezena_min" name="minute_first_min" value="0"></input>
+          <input type="text" READONLY id="minuto_unidade_min" name="minute_last_min" value="0"></input>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          
+          <input type="text" READONLY id="hora_max" name="hour_max" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minuto_dezena_max" name="minute_first_max" value="0"></input>
+          <input type="text" READONLY id="minuto_unidade_max" name="minute_last_max" value="0"></input>
+
+        </form>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('hora_min').value, 'hora_min');">remove</span>&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minuto_dezena_min').value, 'minuto_dezena_min');">remove</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minuto_unidade_min').value, 'minuto_unidade_min');">remove</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('hora_max').value, 'hora_max');">remove</span>&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minuto_dezena_max').value, 'minuto_dezena_max');">remove</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minuto_unidade_max').value, 'minuto_unidade_max');">remove</span>
+
+        <button id="confirmAtividade" onclick="adicionarAtividade();">Criar</button>
+
+        
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<div id="modalDelete" class="modal">
+
+  <div class="modal-content">
+    <h5 id="delete"></h5><br>
+    <div class="btn-delete">
+      <button id="confirmDelete">Confirmar</button> <button id="cancelDelete">Cancelar</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="modalUpdate" class="modal">
+
+  <div class="modal-content-update">
+    <h5 id="update"></h5>
+
+      <div class="form-modal">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('hora_min_update').value, 'hora_min_update');">add</span> &nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minuto_dezena_min_update').value, 'minuto_dezena_min_update');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minuto_unidade_min_update').value, 'minuto_unidade_min_update');">add</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisHora(document.getElementById('hora_max_update').value, 'hora_max_update');">add</span> &nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoDezena(document.getElementById('minuto_dezena_max_update').value, 'minuto_dezena_max_update');">add</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMaisMinutoUnidade(document.getElementById('minuto_unidade_max_update').value, 'minuto_unidade_max_update');">add</span>
+
+        <form>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          
+          <input type="text" READONLY id="hora_min_update" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minuto_dezena_min_update" value="0"></input>
+          <input type="text" READONLY id="minuto_unidade_min_update" value="0"></input>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          
+          <input type="text" READONLY id="hora_max_update" value="0"></input>
+          <b>:</b>
+          <input type="text" READONLY id="minuto_dezena_max_update" value="0"></input>
+          <input type="text" READONLY id="minuto_unidade_max_update" value="0"></input>
+
+        </form>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('hora_min_update').value, 'hora_min_update');">remove</span>&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minuto_dezena_min_update').value, 'minuto_dezena_min_update');">remove</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minuto_unidade_min_update').value, 'minuto_unidade_min_update');">remove</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosHora(document.getElementById('hora_max_update').value, 'hora_max_update');">remove</span>&nbsp;&nbsp;&nbsp;
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoDezena(document.getElementById('minuto_dezena_max_update').value, 'minuto_dezena_max_update');">remove</span>
+        <span class="material-icons" onselectstart="return false" onclick="botaoMenosMinutoUnidade(document.getElementById('minuto_unidade_max_update').value, 'minuto_unidade_max_update');">remove</span>
+
+      </div>       
+
+      <div class="btn-update">
+        <button id="confirmUpdate">Confirmar</button> <button id="cancelUpdate">Cancelar</button>
+      </div>
+
+  </div>
+
+</div>
+
+<script src="js/crud.js"></script>
+<script src="js/mudar_tema.js"></script>
+</body>
+</html>
